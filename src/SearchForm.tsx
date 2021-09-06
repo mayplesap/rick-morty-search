@@ -1,30 +1,36 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { useState } from "react";
 
-function SearchForm(arg: { search: string }): React.FunctionComponent {
-    const [formData, setFormData] = useState({search: ""});
+function SearchForm(props: { search: (searchTerm: string) => void }): React.ReactElement {
+  //props search should be a function, not a string, but just a string for placeholder.
+  // interface Search {
+  //   searchTerm: string;
+  // }
 
-    function handleSubmit(evt) {
-        evt.preventDefault();
-    }
+  const [formData, setFormData] = useState({ searchTerm: "" })
 
-    function handleChange(evt) {
-        const { name, value } = evt.target;
-        setFormData(data => ({
-            ...data,
-            [name]: value
-        }));
-    }
+  function handleSubmit(evt: React.FormEvent) {
+    evt.preventDefault();
+    props.search(formData.searchTerm);
+  }
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <label>Search</label>
-            <input 
-                name="search"
-                onChange={handleChange}
-                required
-            />
-        </form>
-    )
+  function handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = evt.target;
+    setFormData(data => ({
+      ...data,
+      [name]: value
+    }));
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>Search</label>
+      <input
+        name="search"
+        onChange={handleChange}
+        required
+      />
+    </form>
+  )
 }
 
 export default SearchForm;
