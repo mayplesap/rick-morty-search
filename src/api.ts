@@ -18,26 +18,30 @@ class RickAndMortyApi {
       query {
         characters(filter: {name:"${searchTerm}"}){
           results {
-                  name
+            name
+            id
           }
         }
         locations(filter: {name:"${searchTerm}"}){
           results {
-                  name
+            name
             dimension
+            id
           }
         }
         episodes(filter: {name:"${searchTerm}"}) {
           results {
             name
             episode
+            id
           }
         }
       }
     `
 
     let res = await axios.get(`${BASE_URL}${query}`)
-    return res.data;
+    console.log("inside api", res.data.data)
+    return res.data.data;
   }
 
 }

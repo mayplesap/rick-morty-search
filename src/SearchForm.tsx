@@ -22,13 +22,22 @@ function SearchForm(props: { search: (searchTerm: string) => void }): React.Reac
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Search</label>
-      <input
-        name="search"
-        onChange={handleChange}
-        required
-      />
+    <form onSubmit={handleSubmit}
+          className="SearchForm form-group container mt-3">
+      <div className="row">
+        <div className="col-10">
+          <input
+            name="searchTerm"
+            onChange={handleChange}
+            placeholder="Input search term"
+            className="form-control"
+            required
+          />
+        </div>
+        <div className="col-2">
+          <button type="submit" className="btn btn-info">Search</button>
+        </div>
+      </div>
     </form>
   )
 }
