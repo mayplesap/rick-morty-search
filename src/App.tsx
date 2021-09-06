@@ -11,18 +11,14 @@ function App(): React.ReactElement {
   const [isLoading, setIsLoading] = useState(false);
 
   async function searchShow(searchTerm: string){
-    console.log("IN SEARCHSHOW FUNCTION")
     setIsLoading(true);
-    console.log("Search term", searchTerm)
     let resultFromAPI = await RickAndMortyApi.getAll(searchTerm);
-    console.log("RESULTS FROM API", resultFromAPI);
-    setCharacters(resultFromAPI.characters.results);
-    setLocations(resultFromAPI.locations.results);
-    setEpisodes(resultFromAPI.episodes.results);
+    setCharacters(resultFromAPI.characters?.results);
+    setLocations(resultFromAPI.locations?.results);
+    setEpisodes(resultFromAPI.episodes?.results);
     setIsLoading(false);
   }
   
-  console.log("CHARCTESR", characters)
   if(isLoading) return <p>...</p>
 
   return (

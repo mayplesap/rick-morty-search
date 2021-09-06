@@ -1,13 +1,13 @@
-interface Location {
-  name: string;
-  dimension: string;
-  id: number;
+import { Location } from "./interfaces";
+
+interface LocationProps{
+  location: Location;
 }
 
-function LocationCard(props: {location: Location}): React.ReactElement {
+function LocationCard({location}: LocationProps): React.ReactElement {
   //at later time put in prop for what type of cards it uses.
   return (
-    <div>{props.location.name}</div>
+    <div>{location.name}</div>
   )
 }
 

@@ -40,7 +40,6 @@ class RickAndMortyApi {
     `
 
     let res = await axios.get(`${BASE_URL}${query}`)
-    console.log("inside api", res.data.data)
     return res.data.data;
   }
 

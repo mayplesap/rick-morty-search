@@ -1,14 +1,14 @@
-interface Episode {
-  name: string;
-  episode: string;
-  id: number;
+import { Episode } from "./interfaces";
+
+interface EpisodeProps{
+  ep: Episode;
 }
 
-function EpisodeCard(props: {ep: Episode}): React.ReactElement {
+function EpisodeCard({ep}: EpisodeProps): React.ReactElement {
   //at later time put in prop for what type of cards it uses.
   return (
     <div>
-      {props.ep.episode}: {props.ep.name}
+      {ep.episode}: {ep.name}
     </div>
   )
 }
