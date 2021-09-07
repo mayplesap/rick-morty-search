@@ -1,33 +1,54 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import CardContainer from './CardContainer';
 import SearchForm from './SearchForm';
-import RickAndMortyApi from './api';
-import "bootstrap/dist/css/bootstrap.css"
+import "bootstrap/dist/css/bootstrap.css";
+import {
+  useQuery,
+  gql
+} from "@apollo/client";
 
 function App(): React.ReactElement {
-  const [characters, setCharacters] = useState([]);
-  const [locations, setLocations] = useState([]);
-  const [episodes, setEpisodes] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const[searchTerm, setSearchTerm] = useState("");
 
-  async function searchShow(searchTerm: string){
-    setIsLoading(true);
-    let resultFromAPI = await RickAndMortyApi.getAll(searchTerm);
-    setCharacters(resultFromAPI.characters?.results);
-    setLocations(resultFromAPI.locations?.results);
-    setEpisodes(resultFromAPI.episodes?.results);
-    setIsLoading(false);
+  const GET_ALL = gql`
+    query {
+      characters(filter: {name:"${searchTerm}"}){
+        results {
+          name
+          id
+        }
+      }
+      locations(filter: {name:"${searchTerm}"}){
+        results {
+          name
+          dimension
+          id
+        }
+      }
+      episodes(filter: {name:"${searchTerm}"}) {
+        results {
+          name
+          episode
+          id
+        }
+      }
+    }
+  `;
+  const { loading, data } = useQuery(GET_ALL)
+
+  function SearchShow(searchTerm: string): void{
+    setSearchTerm(searchTerm);
   }
   
-  if(isLoading) return <p>...</p>
+  if (loading) return <p>...</p>
 
   return (
     <div className="App">
-      <SearchForm search={searchShow} />
-      <CardContainer 
-        characters={characters} 
-        locations={locations}
-        episodes={episodes}/>
+      <SearchForm search={SearchShow} />
+      <CardContainer
+        characters={data?.characters.results}
+        locations={data?.locations.results}
+        episodes={data?.episodes.results} />
     </div>
   );
 }
